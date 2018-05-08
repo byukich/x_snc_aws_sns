@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="" label="Handler" language="en" table="x_snc_aws_sns_handler">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element/>
+            <help/>
+            <hint/>
+            <label>Handler</label>
+            <language>en</language>
+            <name>x_snc_aws_sns_handler</name>
+            <plural>Handlers</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>ben.yukich</sys_created_by>
+            <sys_created_on>2018-05-05 23:51:36</sys_created_on>
+            <sys_id>9a06f34713fd5f006b9054c32244b0dd</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Handler</sys_name>
+            <sys_package display_value="AWS SNS" source="x_snc_aws_sns">24cd01fe13391f006b9054c32244b0f3</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="AWS SNS">24cd01fe13391f006b9054c32244b0f3</sys_scope>
+            <sys_update_name>sys_documentation_x_snc_aws_sns_handler__en</sys_update_name>
+            <sys_updated_by>ben.yukich</sys_updated_by>
+            <sys_updated_on>2018-05-05 23:51:36</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

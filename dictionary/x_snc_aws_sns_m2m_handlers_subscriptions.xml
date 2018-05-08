@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Aws Sns M2m Handlers Subscriptions" max_length="40" name="x_snc_aws_sns_m2m_handlers_subscriptions" type="collection">
+        <element default="true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Handler" max_length="32" name="handler" reference="x_snc_aws_sns_handler" type="reference"/>
+        <element default="100" label="Order" max_length="40" name="order" type="integer"/>
+        <element label="Subscription" max_length="32" name="subscription" reference="x_snc_aws_sns_subscription" type="reference"/>
+        <index name="index">
+            <element name="handler"/>
+        </index>
+        <index name="index2">
+            <element name="subscription"/>
+        </index>
+    </element>
+</database>

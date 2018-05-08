@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Handler" max_length="40" name="x_snc_aws_sns_handler" type="collection">
+        <element label="Name" max_length="40" name="name" type="string"/>
+        <element default="// SNS Message payload is available as the 'message' object&#13;&#10;(function(message){&#13;&#10;&#9;// e.g. handle config item change&#13;&#10;&#9;if (message.messageType == 'ConfigurationItemChangeNotification') {&#13;&#10;&#9;&#9;// insert magic here&#13;&#10;&#9;}&#13;&#10;}(message));" label="Script" max_length="8000" name="script" type="script"/>
+    </element>
+</database>

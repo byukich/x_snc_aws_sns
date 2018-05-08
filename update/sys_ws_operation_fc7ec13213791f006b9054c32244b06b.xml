@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml,text/plain</consumes>
+        <consumes_customized>true</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>POST</http_method>
+        <name>notification</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	// Enums
+	var state = {'pending': '0', 
+				 'subscribed': '1', 
+				 'unsubscribed': '2'};
+	var table = {'subscription': 'x_snc_aws_sns_subscription',
+				 'handler': 'x_snc_aws_sns_handler',
+				 'subscriptionToHandler': 'x_snc_aws_sns_m2m_handlers_subscriptions'};
+	
+	// Primary logic
+	var type = request.getHeader('x-amz-sns-message-type');
+	var topicArn = request.getHeader('x-amz-sns-topic-arn');
+	var subscriptionGr = new GlideRecord(table.subscription);
+	var haveSubscription = subscriptionGr.get('topic_arn', topicArn);
+	var requestObj = getRequestObject();
+
+	if (type == 'Notification' && haveSubscription) {
+		notification();
+	} else if (type == 'SubscriptionConfirmation' && !haveSubscription) {
+		subscriptionConfirmation();
+	} else if (type == 'UnsubscribeConfirmation' && haveSubscription) {
+		unsubscribeConfirmation();
+	}
+	
+	// Functions
+	function subscriptionConfirmation() {
+		var arnParts = topicArn.split(':');
+		var topicName = arnParts[arnParts.length - 1];
+		subscriptionGr.setValue('name', topicName);
+		subscriptionGr.setValue('state', state.pending);
+		subscriptionGr.setValue('topic_arn', topicArn);
+		subscriptionGr.setValue('subscribe_url', requestObj.SubscribeURL);
+		subscriptionGr.insert();
+	}
+	
+	function unsubscribeConfirmation() {
+		subscriptionGr.setValue('state', state.unsubscribed);
+		subscriptionGr.setValue('subscribe_url', requestObj.SubscribeURL);
+		subscriptionGr.update();
+	}
+	
+	function notification() {
+		var message = JSON.parse(requestObj.Message);
+
+		if (!subscriptionGr.getValue('unsubscribe_url')) {
+			subscriptionGr.setValue('unsubscribe_url', requestObj.UnsubscribeURL);
+			subscriptionGr.update();
+		}
+		
+		var subToHandlerGr = new GlideRecord(table.subscriptionToHandler);
+		subToHandlerGr.addQuery('subscription', subscriptionGr.sys_id);
+		subToHandlerGr.addQuery('active', true);
+		subToHandlerGr.orderBy('order');
+		subToHandlerGr.query();
+		while (subToHandlerGr.next()) {
+			var handlerGr = new GlideRecord(table.handler);
+			handlerGr.get(subToHandlerGr.handler);
+			var evaluator = new GlideScopedEvaluator();
+			evaluator.putVariable('message', message);
+			evaluator.evaluateScript(handlerGr, 'script');
+		}
+	}
+	
+	function getRequestObject() {
+		var reader = new GlideTextReader(request.body.dataStream);
+		var requestString = '';
+		var line = '';
+		while((line = reader.readLine()) != null) {  
+			requestString += line;  
+		}
+		gs.info('requestString: ' + requestString);
+		return JSON.parse(requestString);
+	}
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_snc_aws_sns/aws_sns</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>ben.yukich</sys_created_by>
+        <sys_created_on>2018-05-04 17:05:56</sys_created_on>
+        <sys_id>fc7ec13213791f006b9054c32244b06b</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>notification</sys_name>
+        <sys_package display_value="AWS SNS" source="x_snc_aws_sns">24cd01fe13391f006b9054c32244b0f3</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="AWS SNS">24cd01fe13391f006b9054c32244b0f3</sys_scope>
+        <sys_update_name>sys_ws_operation_fc7ec13213791f006b9054c32244b06b</sys_update_name>
+        <sys_updated_by>ben.yukich</sys_updated_by>
+        <sys_updated_on>2018-05-07 01:06:22</sys_updated_on>
+        <web_service_definition display_value="AWS SNS">61dd49fe13391f006b9054c32244b054</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

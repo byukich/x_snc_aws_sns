@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category display_value="Custom Applications">e0355b31ef303000a61d5a3615c0fb78</category>
+        <description/>
+        <device_type>browser</device_type>
+        <hint/>
+        <name>AWS SNS</name>
+        <order>100</order>
+        <roles/>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>ben.yukich</sys_created_by>
+        <sys_created_on>2018-05-05 23:20:15</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>1bde6f4f13bd5f006b9054c32244b05e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>AWS SNS</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="AWS SNS" source="x_snc_aws_sns">24cd01fe13391f006b9054c32244b0f3</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="AWS SNS">24cd01fe13391f006b9054c32244b0f3</sys_scope>
+        <sys_update_name>sys_app_application_1bde6f4f13bd5f006b9054c32244b05e</sys_update_name>
+        <sys_updated_by>ben.yukich</sys_updated_by>
+        <sys_updated_on>2018-05-05 23:20:15</sys_updated_on>
+        <title>AWS SNS</title>
+        <view_name/>
+    </sys_app_application>
+</record_update>
